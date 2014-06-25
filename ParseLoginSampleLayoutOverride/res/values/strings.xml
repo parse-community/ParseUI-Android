@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Please put your application's app ID and keys here -->
+    <string name="parse_app_id">YOUR_PARSE_APP_ID</string>
+    <string name="parse_client_key">YOUR_PARSE_CLIENT_KEY</string>
+    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
+    <string name="twitter_consumer_key">YOUR_TWITTER_CONSUMER_KEY</string>
+    <string name="twitter_consumer_secret">YOUR_TWITTER_CONSUMER_SECRET</string>
+
+    <string name="app_name">Parse Login Sample Layout Override</string>
+    <string name="profile_logo_content_description">Logo</string>
+    <string name="profile_title_logged_in">Your are logged in as</string>
+    <string name="profile_logout_button_label">Log out</string>
+    <string name="profile_title_logged_out">You must be logged in to view your profile</string>
+    <string name="profile_login_button_label">Log in</string>
+</resources>

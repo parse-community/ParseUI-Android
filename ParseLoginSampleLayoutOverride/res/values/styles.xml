@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ParseLoginUI.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:singleLine">true</item>
+    </style>
+</resources>

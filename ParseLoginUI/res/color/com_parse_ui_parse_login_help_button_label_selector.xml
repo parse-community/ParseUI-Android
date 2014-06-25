@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" android:color="@color/com_parse_ui_parse_login_help_button_label_push"/>
+    <item android:state_focused="true" android:color="@color/com_parse_ui_parse_login_help_button_label_focus"/>
+    <item android:color="@color/com_parse_ui_parse_login_help_button_label"/>
+
+</selector>
