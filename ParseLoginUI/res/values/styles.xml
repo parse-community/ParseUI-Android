@@ -22,7 +22,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">16dp</item>
-        <item name="android:background">@color/android:transparent</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/com_parse_ui_parse_login_help_button_label_selector</item>
         <item name="android:textSize">16sp</item>
     </style>
