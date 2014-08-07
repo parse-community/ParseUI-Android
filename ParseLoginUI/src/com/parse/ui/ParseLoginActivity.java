@@ -104,7 +104,9 @@ public class ParseLoginActivity extends FragmentActivity implements
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    progressDialog.dismiss();
+    if (progressDialog != null) {
+        progressDialog.dismiss();
+    }
     destroyed = true;
   }
 
