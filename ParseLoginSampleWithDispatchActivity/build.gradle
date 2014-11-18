@@ -2,9 +2,7 @@ apply plugin: 'android'
 
 dependencies {
     compile project(':ParseLoginUI')
-    compile project(':facebook-sdk:facebook')
-    compile 'com.android.support:support-v4:13.0.+'
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.android.support:support-v4:21.0.0'
 }
 
 android {
