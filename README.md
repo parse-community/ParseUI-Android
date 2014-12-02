@@ -11,12 +11,11 @@ sample projects, you need to do the following:
 
 1. Clone this repository onto your machine.
 2. Import this repository's projects with Android Studio. The project has Maven dependencies on the Facebook SDK and the Bolts framework.  Android Studio automatically resolves these.
-3. Make sure you have Android Build Tools 21.1.1 installed through Android SDK Manager.
-4. Place the following in `res/values/strings.xml` of each sample project:
-  * Parse application id and client key
-  * Facebook application id
-  * Twitter consumer key and consumer secret
-5. Build and run the sample project using Android Studio.
+3. Specify the following in `res/values/strings.xml` of each sample project:
+  * <code>parse_app_id</code> and <code>parse_client_key</code>
+  * <code>facebook_app_id</code>
+  * <code>twitter_consumer_key</code> and <code>twitter_consumer_secret<code>
+4. Build and run the sample project using Android Studio.
 
 ## Documentation
 For complete details about this library project, please see our [documentation](http://www.parse.com/docs/android_guide#ui-login) on the Parse website.
