@@ -2,7 +2,7 @@
 ## Overview
 This project contains the `ParseLoginUI` library for building login and signup flows with the Parse Android SDK.
 You can easily configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.
-To use this project with your app, you should import it as a library project in Android Studio or Eclipse.
+To use this project with your app, you should import it as a library project in Android Studio.
 
 ![sample screens](http://parseui-android.parseapp.com/images/parse_login_sample_screens.png)
 
@@ -10,23 +10,12 @@ We also provide several sample projects demonstrating how to use the `ParseLogin
 sample projects, you need to do the following:
 
 1. Clone this repository onto your machine.
-2. Fetch the Facebook SDK Git submodule by running the following command in your local ParseUI-Android repository directory: `git submodule update --init --recursive`
-3. Import this repository's projects with Android Studio or Eclipse.
-    1. For Android Studio, just import your local ParseUI-Android repository directory.
-    2. For Eclipse, import the following projects.  In the Eclipse import pop-up, be sure to edit the "New Project Name" column to match each sample project's folder name as shown below (or else Eclipse will automatically use the name of the first activity in `AndroidManifest.xml` and cause name collision error "SampleProfileActivity already exists").
-        * `ParseLoginUI`
-        * `ParseLoginSampleBasic`
-        * `ParseLoginSampleCodeCustomization`
-        * `ParseLoginSampleLayoutOverride`
-        * `ParseLoginSampleWithDispatchActivity`
-        * `facebook-sdk/facebook`
-        ![eclipse import](http://parseui-android.parseapp.com/images/eclipse_import_after_edit.png)
-4. Make sure you have Android Build Tools 19.1 installed through Android SDK Manager.  If you are using Android Studio, please also change <code>facebook-sdk/gradle.properties</code> to say <code>ANDROID_BUILD_TOOLS_VERSION=19.1.0</code>
-5. Place the following in `res/values/strings.xml` of each sample project:
-  * Parse application id and client key
-  * Facebook application id
-  * Twitter consumer key and consumer secret
-6. Build and run the sample project using Android Studio or Eclipse.
+2. Import this repository's projects with Android Studio. The project has Maven dependencies on the Facebook SDK and the Bolts framework.  Android Studio automatically resolves these.
+3. Specify the following in `res/values/strings.xml` of each sample project:
+  * <code>parse_app_id</code> and <code>parse_client_key</code>
+  * <code>facebook_app_id</code>
+  * <code>twitter_consumer_key</code> and <code>twitter_consumer_secret<code>
+4. Build and run the sample project using Android Studio.
 
 ## Documentation
 For complete details about this library project, please see our [documentation](http://www.parse.com/docs/android_guide#ui-login) on the Parse website.
