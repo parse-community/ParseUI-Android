@@ -24,6 +24,7 @@ package com.parse.ui;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -76,10 +77,11 @@ public class ParseLoginFragmentBase extends Fragment {
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   protected boolean isActivityDestroyed() {
+    FragmentActivity activity = getActivity();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      return getActivity().isDestroyed();
+      return activity == null || activity.isDestroyed();
     } else {
-      return ((ParseLoginActivity) getActivity()).isDestroyed();
+      return activity == null || ((ParseLoginActivity) activity).isDestroyed();
     }
   }
 }
