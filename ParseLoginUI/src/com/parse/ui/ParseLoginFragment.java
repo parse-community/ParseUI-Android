@@ -166,7 +166,11 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         String password = passwordField.getText().toString();
 
         if (username.length() == 0) {
-          showToast(R.string.com_parse_ui_no_username_toast);
+          if (config.isParseLoginEmailAsUsername()) {
+            showToast(R.string.com_parse_ui_no_email_toast);
+          } else {
+            showToast(R.string.com_parse_ui_no_username_toast);
+          }
         } else if (password.length() == 0) {
           showToast(R.string.com_parse_ui_no_password_toast);
         } else {
