@@ -3,9 +3,18 @@ apply plugin: 'android-library'
 dependencies {
     compile 'com.parse.bolts:bolts-android:1.1.4'
     compile 'com.android.support:support-v4:21.0.0'
-    compile fileTree(dir: 'libs', include: '*.jar')
 
     provided 'com.facebook.android:facebook-android-sdk:3.21.1'
+
+    // This assumes that
+    // 1. The Parse SDK file is in <PROJECT_ROOT>/libs folder.
+    // 2. Your app's project has a compile dependency on the Parse SDK JAR file.
+    // Your project's build.gradle should say:
+    //
+    //     compile files(':libs/Parse-1.8.2.jar')
+    //
+    // See ParseLoginSampleBasic/build.gradle for an example.
+    provided files(':libs/Parse-1.8.2.jar')
 }
 
 android {
