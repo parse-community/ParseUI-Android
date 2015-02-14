@@ -35,9 +35,8 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
         compile project(':ParseLoginUI')
 
         // If your app's project does not have the Parse Android SDK already, copy it into your
-        // project at <PROJECT_ROOT>/libs.  The Parse SDK path must match the "provided files(...)"
-        // line in ParseLoginUI/build.gradle.
-        compile files(':libs/Parse-1.8.2.jar')
+        // project at YOUR_PROJECT_LIBS_PATH.
+        compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.8.2.jar')
 
         // Uncomment if using Facebook Login (optional Maven dependency)
         // compile 'com.facebook.android:facebook-android-sdk:3.21.1'
