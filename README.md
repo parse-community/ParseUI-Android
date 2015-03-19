@@ -11,7 +11,7 @@ We built several sample apps demonstrating how to use the `ParseLoginUI` library
 this library into your app, we recommend that you run these sample apps to become familiar with its
 functionality and customizations.  In this section, we describe Android Studio instructions for
 running the sample apps (as a standalone project), and importing the `ParseLoginUI` library into
-your own app.  These instructions were last tested on Android Studio 1.0.2.
+your own app.  These instructions were last tested on Android Studio 1.1.0.
 
 #### Running Sample Projects
 To run our sample apps, you need to import this repo as a standalone Gradle project:
@@ -29,13 +29,18 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 2. Import `ParseLoginUI` as a module into your app's Android Studio Project
     * File > Import Module in Android Studio
     * In the New Module pop-up, set the source directory to the `ParseUI-Android/ParseLoginUI` folder within the cloned repo.
-3. Add the following to the `dependencies` section of app's build.gradle.  This adds a module dependency to `ParseLoginUI` (and optional Maven dependency for Facebook SDK).
+3. Add the following to the `dependencies` section of your app's build.gradle.
 
+        // Module dependency on ParseLoginUI library sources
         compile project(':ParseLoginUI')
 
-        // Uncomment if using Facebook Login
-        // compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+        // If your app's project does not have the Parse Android SDK already, copy it into your
+        // project at YOUR_PROJECT_LIBS_PATH.
+        compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.8.4.jar')
+        compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtils-1.8.4.jar')
 
+        // Uncomment if using Facebook Login (optional Maven dependency)
+        // compile 'com.facebook.android:facebook-android-sdk:3.23.1'
 
 4. Add the following to your `AndroidManifest.xml` within the `<application></application>` section.  You can see a complete example in our [sample app](https://github.com/ParsePlatform/ParseUI-Android/blob/master/ParseLoginSampleBasic/AndroidManifest.xml).
 

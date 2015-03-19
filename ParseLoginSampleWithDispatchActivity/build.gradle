@@ -1,9 +1,11 @@
 apply plugin: 'android'
 
 dependencies {
-    compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    compile 'com.facebook.android:facebook-android-sdk:3.23.1'
     compile project(':ParseLoginUI')
-    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:support-v4:22.0.0'
+    compile files('../ParseLoginUI/libs/Parse-1.8.4.jar')
+    compile files('../ParseLoginUI/libs/ParseFacebookUtils-1.8.4.jar')
 }
 
 android {
