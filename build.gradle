@@ -20,4 +20,10 @@ ext {
 
     minSdkVersion = 9
     targetSdkVersion = 21
+
+    facebookSDK = 'com.facebook.android:facebook-android-sdk:4.0.1'
+    androidSupport = 'com.android.support:support-v4:22.0.0'
+    bolts = 'com.parse.bolts:bolts-android:1.2.0'
+    parsePath = "$rootProject.projectDir/ParseLoginUI/libs/Parse-1.9.1.jar"
+    parseFacebookUtilsPath = "$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.9.1.jar"
 }
