@@ -113,9 +113,9 @@ public class ParseLoginActivity extends FragmentActivity implements
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-
+    
     // Required for making Facebook login work
-    ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+    ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
   }
 
   /**

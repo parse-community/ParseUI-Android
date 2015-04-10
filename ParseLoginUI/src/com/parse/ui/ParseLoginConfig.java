@@ -195,6 +195,15 @@ public class ParseLoginConfig {
     }
   }
 
+  /* package */ boolean isFacebookLoginNeedPublishPermissions() {
+    if (facebookLoginPermissions != null) {
+      return facebookLoginPermissions.contains("publish_actions") ||
+          facebookLoginPermissions.contains("publish_pages");
+    } else {
+      return false;
+    }
+  }
+
   public boolean isTwitterLoginEnabled() {
     if (twitterLoginEnabled != null) {
       return twitterLoginEnabled;
