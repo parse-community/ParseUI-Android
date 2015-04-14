@@ -30,6 +30,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 3. Import `ParseLoginUI` as a module into your app's Android Studio Project
     * File > Import Module in Android Studio
     * In the New Module pop-up, set the source directory to the `ParseUI-Android/ParseLoginUI` folder within the cloned repo.
+    
     If you are using gradle 1.1.0 or above, you may encounter "Warning:Project ParseLoginUI: provided dependencies can only be jars. com.facebook.android:facebook-android-sdk:aar:4.0.1 is an Android Library". It is an open issue of android gradle build tool. Currently the workround is using gradle 1.0.0.
 4. Add the following to the `dependencies` section of your app's build.gradle.
 
