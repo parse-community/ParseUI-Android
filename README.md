@@ -26,7 +26,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 
 #### Importing into Your App
 1. Clone this repository onto your machine.
-2. Configure Parse SDK by follwoing this tutorial. (https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing)
+2. Configure Parse SDK by following this tutorial. (https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing)
 3. Import `ParseLoginUI` as a module into your app's Android Studio Project
     * File > Import Module in Android Studio
     * In the New Module pop-up, set the source directory to the `ParseUI-Android/ParseLoginUI` folder within the cloned repo.

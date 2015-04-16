@@ -255,33 +255,33 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         }
       } else if (user.isNew()) {
         GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                  @Override
-                  public void onCompleted(JSONObject fbUser,
-                                          GraphResponse response) {
-                      /*
-                        If we were able to successfully retrieve the Facebook
-                        user's name, let's set it on the fullName field.
-                      */
-                    ParseUser parseUser = ParseUser.getCurrentUser();
-                    if (fbUser != null && parseUser != null
-                            && fbUser.optString("name").length() > 0) {
-                      parseUser.put(USER_OBJECT_NAME_FIELD, fbUser.optString("name"));
-                      parseUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                          if (e != null) {
-                            debugLog(getString(
-                                    R.string.com_parse_ui_login_warning_facebook_login_user_update_failed) +
-                                    e.toString());
-                          }
-                          loginSuccess();
-                        }
-                      });
+            new GraphRequest.GraphJSONObjectCallback() {
+              @Override
+              public void onCompleted(JSONObject fbUser,
+                                      GraphResponse response) {
+                  /*
+                    If we were able to successfully retrieve the Facebook
+                    user's name, let's set it on the fullName field.
+                  */
+                ParseUser parseUser = ParseUser.getCurrentUser();
+                if (fbUser != null && parseUser != null
+                        && fbUser.optString("name").length() > 0) {
+                  parseUser.put(USER_OBJECT_NAME_FIELD, fbUser.optString("name"));
+                  parseUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                      if (e != null) {
+                        debugLog(getString(
+                                R.string.com_parse_ui_login_warning_facebook_login_user_update_failed) +
+                                e.toString());
+                      }
+                      loginSuccess();
                     }
-                    loginSuccess();
-                  }
+                  });
                 }
+                loginSuccess();
+              }
+            }
         ).executeAsync();
       } else {
         loginSuccess();
