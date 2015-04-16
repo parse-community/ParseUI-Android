@@ -24,6 +24,7 @@ package com.parse.loginsample.layoutoverride;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 
 public class SampleApplication extends Application {
@@ -31,10 +32,11 @@ public class SampleApplication extends Application {
   public void onCreate() {
     super.onCreate();
     // Required - Initialize the Parse SDK
-    Parse.initialize(this, getString(R.string.parse_app_id),
-        getString(R.string.parse_client_key));
+    Parse.initialize(this);
 
     Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
+    ParseFacebookUtils.initialize(this);
 
     // Optional - If you don't want to allow Twitter login, you can
     // remove this line (and other related ParseTwitterUtils calls)

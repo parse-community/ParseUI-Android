@@ -26,23 +26,26 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 
 #### Importing into Your App
 1. Clone this repository onto your machine.
-2. Import `ParseLoginUI` as a module into your app's Android Studio Project
+2. Configure Parse SDK by following this tutorial. (https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing)
+3. Import `ParseLoginUI` as a module into your app's Android Studio Project
     * File > Import Module in Android Studio
     * In the New Module pop-up, set the source directory to the `ParseUI-Android/ParseLoginUI` folder within the cloned repo.
-3. Add the following to the `dependencies` section of your app's build.gradle.
+    
+    If you are using gradle 1.1.0 or above, you may encounter "Warning:Project ParseLoginUI: provided dependencies can only be jars. com.facebook.android:facebook-android-sdk:aar:4.0.1 is an Android Library". It is an open issue of android gradle build tool. Currently the workround is using gradle 1.0.0.
+4. Add the following to the `dependencies` section of your app's build.gradle.
 
         // Module dependency on ParseLoginUI library sources
         compile project(':ParseLoginUI')
 
         // If your app's project does not have the Parse Android SDK already, copy it into your
         // project at YOUR_PROJECT_LIBS_PATH.
-        compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.8.4.jar')
-        compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtils-1.8.4.jar')
+        compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.9.1.jar')
+        compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtilsV4-1.9.1.jar')
 
         // Uncomment if using Facebook Login (optional Maven dependency)
-        // compile 'com.facebook.android:facebook-android-sdk:3.23.1'
+        // compile 'com.facebook.android:facebook-android-sdk:4.0.1'
 
-4. Add the following to your `AndroidManifest.xml` within the `<application></application>` section.  You can see a complete example in our [sample app](https://github.com/ParsePlatform/ParseUI-Android/blob/master/ParseLoginSampleBasic/AndroidManifest.xml).
+5. Add the following to your `AndroidManifest.xml` within the `<application></application>` section.  You can see a complete example in our [sample app](https://github.com/ParsePlatform/ParseUI-Android/blob/master/ParseLoginSampleBasic/AndroidManifest.xml).
 
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
@@ -57,7 +60,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
                 android:value="true"/>
         </activity>
 
-5. Specify the following in `res/values/strings.xml` of your app
+6. Specify the following in `res/values/strings.xml` of your app
 
         <string name="parse_app_id">YOUR_PARSE_APP_ID</string>
         <string name="parse_client_key">YOUR_PARSE_CLIENT_KEY</string>
