@@ -21,7 +21,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 3. Specify the following in `res/values/strings.xml` of each sample project:
     * <code>parse_app_id</code> and <code>parse_client_key</code>
     * <code>facebook_app_id</code>
-    * <code>twitter_consumer_key</code> and <code>twitter_consumer_secret<code>
+    * <code>twitter_consumer_key</code> and <code>twitter_consumer_secret</code>
 4. Build (Tools > Android > Sync Project with Gradle Files) and run the sample apps using Android Studio.
 
 #### Importing into Your App
