@@ -39,8 +39,8 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 
         // If your app's project does not have the Parse Android SDK already, copy it into your
         // project at YOUR_PROJECT_LIBS_PATH.
-        compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.9.1.jar')
-        compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtilsV4-1.9.1.jar')
+        compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.9.4.jar')
+        compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtilsV4-1.9.4.jar')
 
         // Uncomment if using Facebook Login (optional Maven dependency)
         // compile 'com.facebook.android:facebook-android-sdk:4.0.1'

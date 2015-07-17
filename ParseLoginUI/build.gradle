@@ -8,13 +8,13 @@ dependencies {
     // This assumes that your app's project has a compile dependency on the Parse SDK JAR files.
     // Your project's build.gradle should say:
     //
-    //     compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.9.1.jar')
-    //     compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtilsV4-1.9.1.jar')
+    //     compile files('YOUR_PROJECT_LIBS_PATH/Parse-1.9.4.jar')
+    //     compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtilsV4-1.9.4.jar')
     //
     // Since the dependency below is "provided" instead of "compile", your project's build.gradle
     // does not have to refer to the same Parse SDK instance that's in the ParseLoginUI/libs folder.
-    provided files("$rootProject.projectDir/ParseLoginUI/libs/Parse-1.9.1.jar")
-    provided files("$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.9.1.jar")
+    provided files("$rootProject.projectDir/ParseLoginUI/libs/Parse-1.9.4.jar")
+    provided files("$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.9.4.jar")
 }
 
 android {
