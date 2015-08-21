@@ -19,6 +19,12 @@
     ~ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     -->
 
-<manifest package="com.parse.ui">
-    <application />
+<manifest
+    package="com.parse.ui"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+        android:name=".TestActivity"
+        android:screenOrientation="portrait" />
+    </application>
 </manifest>
