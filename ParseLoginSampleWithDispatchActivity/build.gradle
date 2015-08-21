@@ -5,7 +5,7 @@ dependencies {
     compile rootProject.ext.facebookSDK
     compile project(':ParseLoginUI')
     compile rootProject.ext.androidSupport
-    compile files(rootProject.ext.parsePath)
+    compile rootProject.ext.parse
     compile files(rootProject.ext.parseFacebookUtilsPath)
     compile files(rootProject.ext.parseTwitterUtilsPath)
 }
