@@ -547,13 +547,10 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
   public void testLoadObjectsWithtAutoload() throws Exception {
     final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
-    DataSetObserver observer = new DataSetObserver() { };
-    adapter.registerDataSetObserver(observer);
+    final Capture<Boolean> flag = new Capture<>(false);
     // Make sure that the Adapter doesn't start trying to load objects until AFTER we set this flag
     // to true (= triggered by calling setAutoload, NOT registerDataSetObserver, if autoload is
     // false).
-    final Capture<Boolean> flag = new Capture<>(false);
-    flag.set(true);
     adapter.setAutoload(false);
     final Semaphore done = new Semaphore(0);
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
@@ -569,7 +566,9 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
         done.release();
       }
     });
-
+    DataSetObserver observer = new DataSetObserver() { };
+    adapter.registerDataSetObserver(observer);
+    flag.set(true);
     adapter.setAutoload(true);
 
     // Make sure we assert in callback is executed
