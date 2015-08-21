@@ -26,7 +26,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 
 #### Importing into Your App
 1. Clone this repository onto your machine.
-2. Configure Parse SDK by following this tutorial. (https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing)
+2. Configure Parse SDK by following this [tutorial](https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing).
 3. Import `ParseLoginUI` as a module into your app's Android Studio Project
     * File > Import Module in Android Studio
     * In the New Module pop-up, set the source directory to the `ParseUI-Android/ParseLoginUI` folder within the cloned repo.
@@ -40,7 +40,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
         // compile 'com.facebook.android:facebook-android-sdk:4.0.1'
         // compile files('YOUR_PROJECT_LIBS_PATH/ParseFacebookUtilsV4-1.10.0.jar')
 
-5. Add the following to your `AndroidManifest.xml` within the `<application></application>` section.  You can see a complete example in our [sample app](https://github.com/ParsePlatform/ParseUI-Android/blob/master/ParseLoginSampleBasic/AndroidManifest.xml).
+5. Add the following to your `AndroidManifest.xml` within the `<application></application>` section.  You can see a complete example in our [sample app](https://github.com/ParsePlatform/ParseUI-Android/blob/master/ParseLoginSampleBasic/src/main/AndroidManifest.xml).
 
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
@@ -63,7 +63,7 @@ To run our sample apps, you need to import this repo as a standalone Gradle proj
 For an example of setting up Facebook and Twitter integrations, please see `AndroidManfest.xml` and `res/values/strings.xml` in our [sample app](https://github.com/ParsePlatform/ParseUI-Android/blob/master/ParseLoginSampleBasic).
 
 ## Documentation
-For complete details about this library project, please see our [documentation](https://www.parse.com/docs/android_guide#ui-login) on the Parse website.
+For complete details about this library project, please see our [documentation](https://www.parse.com/docs/android/guide#user-interface-parseloginui) on the Parse website.
 We'll discuss some highlights here.
 
 To start the login flow from your own activity, you launch the `ParseLoginActivity` with two lines of code:
@@ -81,7 +81,7 @@ This library is ultra-customizable, allowing you to configure the login experien
 As shown in the Getting Started section, you can directly configure the login experience through the activity
 meta-data in `AndroidManifest.xml`.
 
-Please see the [Parse website](https://www.parse.com/docs/android_guide#ui-login) for additional documentation.
+Please see the [Parse website](https://www.parse.com/docs/android/guide#user-interface-parseloginui) for additional documentation.
 
 ## Contributing
 See the CONTRIBUTING file for how to help out.
@@ -94,8 +94,7 @@ copy, modify, and distribute this software in source code or binary form for use
 in connection with the web services and APIs provided by Parse.
 
 As with any software that integrates with the Parse platform, your use of
-this software is subject to the Parse Terms of Service
-[https://www.parse.com/about/terms]. This copyright notice shall be
+this software is subject to the [Parse Terms of Service](https://www.parse.com/about/terms). This copyright notice shall be
 included in all copies or substantial portions of the software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
