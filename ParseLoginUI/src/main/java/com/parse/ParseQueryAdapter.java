@@ -21,7 +21,6 @@
 
 package com.parse;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
@@ -36,9 +35,12 @@ import android.widget.TextView;
 import com.parse.ParseQuery.CachePolicy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import bolts.Capture;
 
@@ -141,6 +143,9 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
   private Context context;
 
   private List<T> objects = new ArrayList<>();
+
+  private Set<ParseQuery> runningQueries = Collections.newSetFromMap(new ConcurrentHashMap<ParseQuery, Boolean>());
+
 
   // Used to keep track of the pages of objects when using CACHE_THEN_NETWORK. When using this,
   // the data will be flattened and put into the objects list.
@@ -332,9 +337,17 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    */
   public void clear() {
     this.objectPages.clear();
+    cancelAllQueries();
     syncObjectsWithPages();
     this.notifyDataSetChanged();
     this.currentPage = 0;
+  }
+
+  private void cancelAllQueries() {
+    for (ParseQuery q : runningQueries) {
+      q.cancel();
+    }
+    runningQueries.clear();
   }
 
   /**
@@ -365,22 +378,36 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
     // In the case of CACHE_THEN_NETWORK, two callbacks will be called. Using this flag to keep track,
     final Capture<Boolean> firstCallBack = new Capture<>(true);
 
+    runningQueries.add(query);
+
+    // TODO convert to Tasks and CancellationTokens
+    // (depends on https://github.com/ParsePlatform/Parse-SDK-Android/issues/6)
     query.findInBackground(new FindCallback<T>() {
-      @SuppressLint("ShowToast")
       @Override
       public void done(List<T> foundObjects, ParseException e) {
+        if (!runningQueries.contains(query)) {
+          return;
+        }
+        // In the case of CACHE_THEN_NETWORK, two callbacks will be called. We can only remove the
+        // query after the second callback.
+        if (query.getCachePolicy() != CachePolicy.CACHE_THEN_NETWORK ||
+                (query.getCachePolicy() == CachePolicy.CACHE_THEN_NETWORK && !firstCallBack.get())) {
+          runningQueries.remove(query);
+        }
         if ((!Parse.isLocalDatastoreEnabled() &&
-            query.getCachePolicy() == CachePolicy.CACHE_ONLY)
-            && (e != null) && e.getCode() == ParseException.CACHE_MISS) {
+                query.getCachePolicy() == CachePolicy.CACHE_ONLY)
+                && (e != null) && e.getCode() == ParseException.CACHE_MISS) {
           // no-op on cache miss
           return;
         }
 
-        if ((e != null)
-            && ((e.getCode() == ParseException.CONNECTION_FAILED) || (e.getCode() != ParseException.CACHE_MISS))) {
+        if ((e != null) && ((e.getCode() == ParseException.CONNECTION_FAILED) || (e.getCode() != ParseException.CACHE_MISS))) {
           hasNextPage = true;
         } else if (foundObjects != null) {
           if (shouldClear && firstCallBack.get()) {
+            runningQueries.remove(query);
+            cancelAllQueries();
+            runningQueries.add(query); // allow 2nd callback
             objectPages.clear();
             objectPages.add(new ArrayList<T>());
             currentPage = page;
@@ -432,7 +459,12 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    * changed.
    */
   public void loadNextPage() {
-    this.loadObjects(currentPage + 1, false);
+    if (objects.size() == 0 && runningQueries.size() == 0) {
+      loadObjects(0, false);
+    }
+    else {
+      loadObjects(currentPage + 1, false);
+    }
   }
 
   /**

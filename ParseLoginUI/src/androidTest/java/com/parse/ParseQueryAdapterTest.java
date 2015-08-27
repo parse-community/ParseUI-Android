@@ -516,6 +516,57 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     assertTrue(done.tryAcquire(10, TimeUnit.SECONDS));
   }
 
+  public void testLoadNextPageBeforeLoadObjects() throws Exception {
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final Semaphore done = new Semaphore(0);
+    adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
+      @Override
+      public void onLoading() {
+      }
+
+      @Override
+      public void onLoaded(List<Thing> objects, Exception e) {
+        assertNull(e);
+        assertEquals(TOTAL_THINGS, objects.size());
+        done.release();
+      }
+    });
+
+    adapter.loadNextPage();
+
+    // Make sure we assert in callback is executed
+    assertTrue(done.tryAcquire(10, TimeUnit.SECONDS));
+  }
+
+  public void testIncomingQueryResultAfterClearing() throws Exception {
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final int pageSize = 4;
+    adapter.setObjectsPerPage(pageSize);
+    final Semaphore done = new Semaphore(0);
+    final Capture<Integer> timesThrough = new Capture<>(0);
+    adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
+      @Override
+      public void onLoading() {}
+
+      @Override
+      public void onLoaded(List<Thing> objects, Exception e) {
+        switch (timesThrough.get()) {
+        case 0:
+          adapter.loadNextPage();
+          adapter.clear();
+        case 1:
+          done.release();
+        }
+        timesThrough.set(timesThrough.get()+1);
+      }
+    });
+
+    adapter.loadObjects();
+
+    // Make sure we assert in callback is executed
+    assertTrue(done.tryAcquire(10, TimeUnit.SECONDS));
+  }
+
   public void testLoadObjectsWithOverrideSetPageOnQuery() throws Exception {
     final int arbitraryLimit = 3;
     final ParseQueryAdapter<Thing> adapter =
