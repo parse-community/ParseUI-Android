@@ -19,14 +19,23 @@
  *
  */
 
-package com.parse.ui;
+apply plugin: 'android-library'
 
-import android.app.Activity;
-import android.os.Bundle;
+dependencies {
+    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.parse:parse-android:1.10.1'
 
-/**
- * This is a blank Activity placeholder class for test, used to get the ParseQueryAdapterTest
- * to satisfy the BaseActivityInstrumentationTestCase2 constructor.
- */
-public class TestActivity extends Activity {
+    provided 'com.facebook.android:facebook-android-sdk:4.0.1'
+    provided files("$rootProject.projectDir/ParseUI-Login/libs/ParseFacebookUtilsV4-1.10.1.jar")
+    provided files("$rootProject.projectDir/ParseUI-Login/libs/ParseTwitterUtils-1.10.1.jar")
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 21
+    }
 }
