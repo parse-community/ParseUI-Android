@@ -23,8 +23,8 @@ ext {
 
     facebookSDK = 'com.facebook.android:facebook-android-sdk:4.0.1'
     androidSupport = 'com.android.support:support-v4:22.0.0'
-    bolts = 'com.parse.bolts:bolts-android:1.2.0'
-    parse = 'com.parse:parse-android:1.10.0'
-    parseFacebookUtilsPath = "$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.10.0.jar"
-    parseTwitterUtilsPath = "$rootProject.projectDir/ParseLoginUI/libs/ParseTwitterUtils-1.10.0.jar"
+    bolts = 'com.parse.bolts:bolts-android:1.2.1'
+    parse = 'com.parse:parse-android:1.10.1'
+    parseFacebookUtilsPath = "$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.10.1.jar"
+    parseTwitterUtilsPath = "$rootProject.projectDir/ParseLoginUI/libs/ParseTwitterUtils-1.10.1.jar"
 }

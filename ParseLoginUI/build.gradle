@@ -1,13 +1,13 @@
 apply plugin: 'android-library'
 
 dependencies {
-    compile rootProject.ext.bolts
-    compile rootProject.ext.androidSupport
-    compile rootProject.ext.parse
+    compile 'com.parse.bolts:bolts-android:1.2.1'
+    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.parse:parse-android:1.10.1'
 
-    provided rootProject.ext.facebookSDK
-    provided files("$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.10.0.jar")
-    provided files("$rootProject.projectDir/ParseLoginUI/libs/ParseTwitterUtils-1.10.0.jar")
+    provided 'com.facebook.android:facebook-android-sdk:4.0.1'
+    provided files("$rootProject.projectDir/ParseLoginUI/libs/ParseFacebookUtilsV4-1.10.1.jar")
+    provided files("$rootProject.projectDir/ParseLoginUI/libs/ParseTwitterUtils-1.10.1.jar")
 
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
