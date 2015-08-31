@@ -14,11 +14,12 @@
 
     <EditText
         android:id="@+id/login_help_email_input"
+        style="@style/ParseLoginUI.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/com_parse_ui_xlarge_vertical_spacing"
         android:hint="@string/com_parse_ui_login_help_email_input_hint"
-        android:inputType="textEmailAddress"></EditText>
+        android:inputType="textEmailAddress" />
 
     <Button
         android:id="@+id/login_help_submit"
