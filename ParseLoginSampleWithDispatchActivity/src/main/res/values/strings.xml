@@ -10,7 +10,7 @@
 
     <string name="app_name">Parse Login Sample With Dispatch Activity</string>
     <string name="profile_logo_content_description">Logo</string>
-    <string name="profile_title_logged_in">Your are logged in as</string>
+    <string name="profile_title_logged_in">You are logged in as</string>
     <string name="profile_logout_button_label">Log out</string>
 
 </resources>
