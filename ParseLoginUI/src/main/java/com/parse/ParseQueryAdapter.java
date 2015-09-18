@@ -144,7 +144,8 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
 
   private List<T> objects = new ArrayList<>();
 
-  private Set<ParseQuery> runningQueries = Collections.newSetFromMap(new ConcurrentHashMap<ParseQuery, Boolean>());
+  private Set<ParseQuery> runningQueries =
+      Collections.newSetFromMap(new ConcurrentHashMap<ParseQuery, Boolean>());
 
 
   // Used to keep track of the pages of objects when using CACHE_THEN_NETWORK. When using this,
@@ -375,7 +376,8 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
       objectPages.add(page, new ArrayList<T>());
     }
 
-    // In the case of CACHE_THEN_NETWORK, two callbacks will be called. Using this flag to keep track,
+    // In the case of CACHE_THEN_NETWORK, two callbacks will be called. Using this flag to keep
+    // track of the callbacks.
     final Capture<Boolean> firstCallBack = new Capture<>(true);
 
     runningQueries.add(query);
@@ -390,18 +392,22 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
         }
         // In the case of CACHE_THEN_NETWORK, two callbacks will be called. We can only remove the
         // query after the second callback.
-        if (query.getCachePolicy() != CachePolicy.CACHE_THEN_NETWORK ||
-                (query.getCachePolicy() == CachePolicy.CACHE_THEN_NETWORK && !firstCallBack.get())) {
+        if (Parse.isLocalDatastoreEnabled() ||
+            (query.getCachePolicy() != CachePolicy.CACHE_THEN_NETWORK) ||
+            (query.getCachePolicy() == CachePolicy.CACHE_THEN_NETWORK && !firstCallBack.get())) {
           runningQueries.remove(query);
         }
+
         if ((!Parse.isLocalDatastoreEnabled() &&
-                query.getCachePolicy() == CachePolicy.CACHE_ONLY)
-                && (e != null) && e.getCode() == ParseException.CACHE_MISS) {
+            query.getCachePolicy() == CachePolicy.CACHE_ONLY) &&
+            (e != null) && e.getCode() == ParseException.CACHE_MISS) {
           // no-op on cache miss
           return;
         }
 
-        if ((e != null) && ((e.getCode() == ParseException.CONNECTION_FAILED) || (e.getCode() != ParseException.CACHE_MISS))) {
+        if ((e != null) &&
+            ((e.getCode() == ParseException.CONNECTION_FAILED) ||
+                (e.getCode() != ParseException.CACHE_MISS))) {
           hasNextPage = true;
         } else if (foundObjects != null) {
           if (shouldClear && firstCallBack.get()) {
