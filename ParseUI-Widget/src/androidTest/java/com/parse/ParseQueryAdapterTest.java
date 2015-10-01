@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 import bolts.Capture;
 import bolts.Task;
 
-import com.parse.test.R;
+import com.parse.widget.test.R;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

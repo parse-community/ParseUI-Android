@@ -19,6 +19,6 @@
 
   -->
 
-<manifest package="com.parse">
+<manifest package="com.parse.widget">
     <application />
 </manifest>

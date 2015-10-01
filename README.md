@@ -4,7 +4,7 @@ This project contains two libraries, `ParseUI-Login` and `ParseUI-Widget`.
 
 The `ParseUI-Login` library is used for building login and signup flows with the Parse Android SDK. You can easily configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.
 
-The `ParseUI-Widget` library provides several useful UI widgets which integrate with `ParseObject` seamlessly.
+The `ParseUI-Widget` library provides several useful UI widgets which integrate with [Parse SDK](https://github.com/ParsePlatform/Parse-SDK-Android)  seamlessly.
 
 
 ## Import to your project
