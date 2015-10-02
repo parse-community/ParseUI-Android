@@ -26,7 +26,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
-public abstract class BaseActivityInstrumentationTestCase2<T extends android.app.Activity>
+public abstract class BaseActivityInstrumentationTestCase2<T extends Activity>
     extends ActivityInstrumentationTestCase2<T> {
 
   protected Activity activity = null;

@@ -29,8 +29,6 @@ import android.widget.TextView;
 import com.parse.ParseQuery.CachePolicy;
 import com.parse.ParseQueryAdapter.OnQueryLoadListener;
 import com.parse.ParseQueryAdapter.QueryFactory;
-import com.parse.ui.TestActivity;
-import com.parse.ui.test.R;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -42,6 +40,8 @@ import java.util.concurrent.TimeUnit;
 
 import bolts.Capture;
 import bolts.Task;
+
+import com.parse.widget.test.R;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

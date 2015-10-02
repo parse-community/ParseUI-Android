@@ -28,7 +28,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.InstrumentationTestCase;
 
-import com.parse.ui.test.R;
+import com.parse.widget.test.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;

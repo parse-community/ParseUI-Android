@@ -36,7 +36,6 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -162,7 +161,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
       parseLoginButton.setText(config.getParseLoginButtonText());
     }
 
-    parseLoginButton.setOnClickListener(new View.OnClickListener() {
+    parseLoginButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         String username = usernameField.getText().toString();
