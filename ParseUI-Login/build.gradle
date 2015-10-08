@@ -25,7 +25,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.parse:parse-android:1.10.3'
 
-    provided 'com.facebook.android:facebook-android-sdk:4.6.0'
+    provided 'com.facebook.android:facebook-android-sdk:4.4.0'
     provided 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
     provided 'com.parse:parsetwitterutils-android:1.10.3'
 }
