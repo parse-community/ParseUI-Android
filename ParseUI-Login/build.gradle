@@ -22,12 +22,12 @@
 apply plugin: 'android-library'
 
 dependencies {
-    compile 'com.android.support:support-v4:22.0.0'
-    compile 'com.parse:parse-android:1.10.1'
+    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.parse:parse-android:1.10.3'
 
-    provided 'com.facebook.android:facebook-android-sdk:4.0.1'
-    provided files("$rootProject.projectDir/ParseUI-Login/libs/ParseFacebookUtilsV4-1.10.1.jar")
-    provided files("$rootProject.projectDir/ParseUI-Login/libs/ParseTwitterUtils-1.10.1.jar")
+    provided 'com.facebook.android:facebook-android-sdk:4.4.0'
+    provided 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
+    provided 'com.parse:parsetwitterutils-android:1.10.3'
 }
 
 android {

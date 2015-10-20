@@ -6,8 +6,8 @@ dependencies {
     compile project(':ParseUI-Login')
     compile rootProject.ext.androidSupport
     compile rootProject.ext.parse
-    compile files(rootProject.ext.parseFacebookUtilsPath)
-    compile files(rootProject.ext.parseTwitterUtilsPath)
+    compile rootProject.ext.parseFacebookUtils
+    compile rootProject.ext.parseTwitterUtils
 }
 
 android {
