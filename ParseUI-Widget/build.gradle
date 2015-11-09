@@ -23,6 +23,7 @@ import com.android.builder.core.BuilderConstants
 apply plugin: 'com.android.library'
 
 version = "0.0.1"
+group = 'com.parse'
 
 dependencies {
     compile 'com.parse:parse-android:1.10.3'
