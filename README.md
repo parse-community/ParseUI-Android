@@ -16,9 +16,10 @@ The `ParseUI-Widget` library provides several useful UI widgets which integrate 
     compile 'com.parse:parseui-login-android:0.0.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
 
-    // Uncomment if using Facebook Login (optional Maven dependency)
+    // Uncomment if using Facebook or Twitter Login (optional Maven dependency)
     // compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     // compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
+    // compile 'com.parse:parsetwitterutils-android:1.10.3'
     ```
 
 ## Usage
