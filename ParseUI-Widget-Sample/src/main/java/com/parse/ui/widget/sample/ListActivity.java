@@ -3,6 +3,7 @@ package com.parse.ui.widget.sample;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 
 public class ListActivity extends AppCompatActivity {
+
+  private static final String TAG = "ListActivity";
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,11 +39,12 @@ public class ListActivity extends AppCompatActivity {
     adapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseObject>() {
       @Override
       public void onLoading() {
-
+        Log.d(TAG, "loading");
       }
 
       @Override
       public void onLoaded(List<ParseObject> objects, Exception e) {
+        Log.d(TAG, "loaded");
         if (e != null
             && e instanceof ParseException
             && ((ParseException) e).getCode() != ParseException.CACHE_MISS) {
