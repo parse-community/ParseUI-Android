@@ -26,7 +26,7 @@ version = "0.0.1"
 group = 'com.parse'
 
 dependencies {
-    compile 'com.parse:parse-android:1.10.3'
+    compile rootProject.ext.parse
 
     androidTestCompile 'com.crittercism.dexmaker:dexmaker:1.4'
     androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
