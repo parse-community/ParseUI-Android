@@ -3,6 +3,7 @@ package com.parse.ui.widget.sample;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,33 @@ public class ListActivity extends AppCompatActivity {
 
     ListView listView = (ListView) findViewById(R.id.list);
 
-    MyAdapter<ParseObject> adapter = new MyAdapter<>(createPager());
+    final MyAdapter<ParseObject> adapter = new MyAdapter<>(createPager());
     listView.setAdapter(adapter);
+
+    final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+    refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        final ParseQueryPager<ParseObject> pager = createPager();
+        pager.loadNextPage(new FindCallback<ParseObject>() {
+          @Override
+          public void done(List<ParseObject> objects, ParseException e) {
+            refreshLayout.setRefreshing(false);
+
+            if (objects == null && e == null) { // cancelled
+              return;
+            }
+
+            if (e != null) {
+              return;
+            }
+
+            adapter.swap(pager);
+            adapter.notifyDataSetChanged();
+          }
+        });
+      }
+    });
   }
 
   private ParseQueryPager<ParseObject> createPager() {
