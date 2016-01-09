@@ -24,12 +24,14 @@ package com.parse;
 import android.database.DataSetObserver;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.ParseQuery.CachePolicy;
 import com.parse.ParseQueryAdapter.OnQueryLoadListener;
 import com.parse.ParseQueryAdapter.QueryFactory;
 
+import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -59,12 +61,17 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     super(TestActivity.class);
   }
 
-  private int TOTAL_THINGS = 10;
-  private List<ParseObject> savedThings = new ArrayList<ParseObject>();
+  private ListView listView;
+  private List<ParseObject> savedThings;
+  private int totalThings;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
+
+    listView = new ListView(activity);
+    savedThings = new ArrayList<>();
+    totalThings = 10;
 
     // Register a mock cachedQueryController, the controller maintain a cache list and return
     // results based on query state's CachePolicy
@@ -78,7 +85,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
         int start = state.skip();
         // The default value of limit in ParseQuery is -1.
         int end = state.limit() > 0 ?
-            Math.min(state.skip() + state.limit(), TOTAL_THINGS) : TOTAL_THINGS;
+            Math.min(state.skip() + state.limit(), totalThings) : totalThings;
         List<ParseObject> things;
         if (state.cachePolicy() == CachePolicy.CACHE_ONLY) {
           try {
@@ -102,7 +109,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
         return Task.forResult(things);
       }
     };
-    when(queryController.findAsync(any(ParseQuery.State.class), any(ParseUser.class), any(Task.class)))
+    when(queryController.findAsync(any(ParseQuery.State.class), any(ParseUser.class), Matchers.<Task<Void>>any()))
         .thenAnswer(queryAnswer);
     ParseCorePlugins.getInstance().registerQueryController(queryController);
 
@@ -115,7 +122,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
     ParseObject.registerSubclass(Thing.class);
     // Make test data set
-    for (int i = 0; i < TOTAL_THINGS; i++) {
+    for (int i = 0; i < totalThings; i++) {
       ParseObject thing = ParseObject.create("Thing");
       thing.put("aValue", i * 10);
       thing.put("name", "Thing " + i);
@@ -126,6 +133,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
   @Override
   public void tearDown() throws Exception {
+    listView = null;
     savedThings = null;
     ParseCorePlugins.getInstance().reset();
     ParseObject.unregisterSubclass("Thing");
@@ -143,7 +151,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
       @Override
       public void onLoaded(List<Thing> objects, Exception e) {
         assertNull(e);
-        assertEquals(TOTAL_THINGS, objects.size());
+        assertEquals(totalThings, objects.size());
         done.release();
       }
     });
@@ -166,7 +174,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
       @Override
       public void onLoaded(List<ParseObject> objects, Exception e) {
         assertNull(e);
-        assertEquals(TOTAL_THINGS, objects.size());
+        assertEquals(totalThings, objects.size());
         done.release();
       }
     });
@@ -182,7 +190,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
         new ParseQueryAdapter<>(activity, Thing.class);
     adapter.setTextKey("name");
 
-    View view = adapter.getItemView(savedThings.get(0), buildReusableListCell(), null);
+    View view = adapter.getItemView(savedThings.get(0), buildReusableListCell(), listView);
     TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
     assertEquals("Thing 0", textView.getText());
@@ -193,7 +201,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
         new ParseQueryAdapter<>(activity, Thing.class, R.layout.view_item);
     adapter.setTextKey("name");
 
-    View view = adapter.getItemView(savedThings.get(0), null, null);
+    View view = adapter.getItemView(savedThings.get(0), null, listView);
     TextView textView = (TextView) view.findViewById(android.R.id.text1);
     assertEquals("Thing 0", textView.getText());
 
@@ -205,7 +213,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     ParseQueryAdapter<ParseObject> adapter =
         new ParseQueryAdapter<>(activity, Thing.class);
 
-    View view = adapter.getItemView(savedThings.get(0), null, null);
+    View view = adapter.getItemView(savedThings.get(0), null, listView);
     TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
     // Since we do not set the textKey, we should display objectId
@@ -244,8 +252,8 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
           break;
         case 2:
           // last time through, no "Load more" necessary.
-          assertEquals(TOTAL_THINGS - 2 * pageSize, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings - 2 * pageSize, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           done.release();
         }
         timesThrough.set(timesThrough.get() + 1);
@@ -287,8 +295,8 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
           // second time through, should have two pages' worth of results. It should realize that an
           // additional "Load more" link isn't necessary, since this second page covers all of the
           // results.
-          assertEquals(TOTAL_THINGS - pageSize, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings - pageSize, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           done.release();
         }
         timesThrough.set(timesThrough.get() + 1);
@@ -325,7 +333,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
           assertEquals(pageSize + 1, adapter.getCount());
 
           // Get Next Page view by passing in pageSize as the index
-          View view = adapter.getView(pageSize, null, null);
+          View view = adapter.getView(pageSize, null, listView);
           TextView textView = (TextView) view.findViewById(android.R.id.text1);
           assertEquals("Load more...", textView.getText());
           // View should have OnClickListener attached. In API level 15+, we could call
@@ -353,7 +361,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
       thing.put("name", "Additional Thing " + i);
       savedThings.add(thing);
     }
-    TOTAL_THINGS += additional;
+    totalThings += additional;
 
     final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
     adapter.setPaginationEnabled(false);
@@ -366,8 +374,8 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
       @Override
       public void onLoaded(List<Thing> objects, Exception e) {
         assertNull(e);
-        assertEquals(TOTAL_THINGS, objects.size());
-        assertEquals(TOTAL_THINGS, adapter.getCount());
+        assertEquals(totalThings, objects.size());
+        assertEquals(totalThings, adapter.getCount());
         done.release();
       }
     });
@@ -394,15 +402,15 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
         }
         switch (counter.get()) {
         case 0:
-          assertEquals(TOTAL_THINGS, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           adapter.clear();
           assertEquals(0, adapter.getCount());
           adapter.loadObjects();
           break;
         default:
-          assertEquals(TOTAL_THINGS, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           done.release();
         }
         counter.set(counter.get() + 1);
@@ -419,7 +427,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     QueryFactory<Thing> factory = new QueryFactory<Thing>() {
       @Override
       public ParseQuery<Thing> create() {
-        ParseQuery<Thing> query = new ParseQuery<Thing>(Thing.class);
+        ParseQuery<Thing> query = new ParseQuery<>(Thing.class);
         query.setCachePolicy(CachePolicy.CACHE_THEN_NETWORK);
         return query;
       }
@@ -451,8 +459,8 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
           break;
         case 1:
           // Network callback for second page
-          assertEquals(TOTAL_THINGS - pageSize, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings - pageSize, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           adapter.loadObjects();
           break;
         case 2:
@@ -468,13 +476,13 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
           break;
         case 4:
           // Cache callback for second page
-          assertEquals(TOTAL_THINGS - pageSize, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings - pageSize, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           break;
         case 5:
           // Network callback for second page
-          assertEquals(TOTAL_THINGS - pageSize, objects.size());
-          assertEquals(TOTAL_THINGS, adapter.getCount());
+          assertEquals(totalThings - pageSize, objects.size());
+          assertEquals(totalThings, adapter.getCount());
           done.release();
           break;
         }
@@ -527,7 +535,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
       @Override
       public void onLoaded(List<Thing> objects, Exception e) {
         assertNull(e);
-        assertEquals(TOTAL_THINGS, objects.size());
+        assertEquals(totalThings, objects.size());
         done.release();
       }
     });
@@ -581,7 +589,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
       @Override
       public void onLoading() {
-      };
+      }
 
       @Override
       public void onLoaded(List<Thing> objects, Exception e) {
@@ -613,7 +621,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
       @Override
       public void onLoaded(List<Thing> objects, Exception e) {
-        assertEquals(TOTAL_THINGS, adapter.getCount());
+        assertEquals(totalThings, adapter.getCount());
         done.release();
       }
     });
