@@ -33,6 +33,11 @@ import com.parse.widget.test.R;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
+import bolts.Task;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class ParseImageViewTest extends InstrumentationTestCase {
 
   public void testParseImageViewWithNullParseFile() throws Exception {
@@ -49,7 +54,8 @@ public class ParseImageViewTest extends InstrumentationTestCase {
 
   public void testParseImageViewWithNotImageParseFile() throws Exception {
     byte[] data = "hello".getBytes();
-    ParseFile file = new ParseFile(data);
+    ParseFile file = mock(ParseFile.class);
+    when(file.getDataInBackground()).thenReturn(Task.forResult(data));
 
     final Drawable drawable = new ColorDrawable();
     final ParseImageView imageView = new ParseImageView(getInstrumentation().getTargetContext());
@@ -70,7 +76,9 @@ public class ParseImageViewTest extends InstrumentationTestCase {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     iconBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
     final byte[] imageData = stream.toByteArray();
-    ParseFile file = new ParseFile(imageData);
+
+    ParseFile file = mock(ParseFile.class);
+    when(file.getDataInBackground()).thenReturn(Task.forResult(imageData));
 
     final Drawable drawable = new ColorDrawable();
     final ParseImageView imageView = new ParseImageView(context);

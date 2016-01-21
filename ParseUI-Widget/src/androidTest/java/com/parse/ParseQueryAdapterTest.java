@@ -21,7 +21,9 @@
 
 package com.parse;
 
+import android.app.Activity;
 import android.database.DataSetObserver;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -49,7 +51,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<TestActivity> {
+public class ParseQueryAdapterTest extends ActivityInstrumentationTestCase2<TestActivity> {
 
   @ParseClassName("Thing")
   public static class Thing extends ParseObject {
@@ -69,7 +71,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   public void setUp() throws Exception {
     super.setUp();
 
-    listView = new ListView(activity);
+    listView = new ListView(getActivity());
     savedThings = new ArrayList<>();
     totalThings = 10;
 
@@ -141,7 +143,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadObjects() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final Semaphore done = new Semaphore(0);
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
       @Override
@@ -164,7 +166,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
   public void testLoadObjectsWithGenericParseObjects() throws Exception {
     final ParseQueryAdapter<ParseObject> adapter =
-        new ParseQueryAdapter<>(activity, Thing.class);
+        new ParseQueryAdapter<>(getActivity(), Thing.class);
     final Semaphore done = new Semaphore(0);
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<ParseObject>() {
       @Override
@@ -186,11 +188,11 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testGetItemViewWithTextKey() {
-    ParseQueryAdapter<ParseObject> adapter =
-        new ParseQueryAdapter<>(activity, Thing.class);
+    Activity activity = getActivity();
+    ParseQueryAdapter<ParseObject> adapter = new ParseQueryAdapter<>(activity, Thing.class);
     adapter.setTextKey("name");
 
-    View view = adapter.getItemView(savedThings.get(0), buildReusableListCell(), listView);
+    View view = adapter.getItemView(savedThings.get(0), buildReusableListCell(activity), listView);
     TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
     assertEquals("Thing 0", textView.getText());
@@ -198,7 +200,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
   public void testGetItemViewWithCustomLayout() {
     ParseQueryAdapter<ParseObject> adapter =
-        new ParseQueryAdapter<>(activity, Thing.class, R.layout.view_item);
+        new ParseQueryAdapter<>(getActivity(), Thing.class, R.layout.view_item);
     adapter.setTextKey("name");
 
     View view = adapter.getItemView(savedThings.get(0), null, listView);
@@ -211,7 +213,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
 
   public void testGetItemViewWithNoTextKey() throws ParseException {
     ParseQueryAdapter<ParseObject> adapter =
-        new ParseQueryAdapter<>(activity, Thing.class);
+        new ParseQueryAdapter<>(getActivity(), Thing.class);
 
     View view = adapter.getItemView(savedThings.get(0), null, listView);
     TextView textView = (TextView) view.findViewById(android.R.id.text1);
@@ -221,7 +223,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadObjectsWithLimitsObjectsPerPage() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final int pageSize = 4;
     adapter.setObjectsPerPage(pageSize);
     final Capture<Integer> timesThrough = new Capture<>(0);
@@ -268,7 +270,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadObjectsWithLimitsObjectsPerPageAndNoRemainder() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final int pageSize = 5;
     adapter.setObjectsPerPage(pageSize);
     final Capture<Integer> timesThrough = new Capture<>(0);
@@ -311,7 +313,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadObjectsWithPaginationNextPageView() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final int pageSize = 5;
     adapter.setObjectsPerPage(pageSize);
     final Capture<Integer> timesThrough = new Capture<>(0);
@@ -363,7 +365,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     }
     totalThings += additional;
 
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     adapter.setPaginationEnabled(false);
     final Semaphore done = new Semaphore(0);
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
@@ -387,7 +389,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testClear() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final Semaphore done = new Semaphore(0);
     final Capture<Integer> counter = new Capture<>(0);
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
@@ -433,7 +435,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
       }
     };
 
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, factory);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), factory);
     final int pageSize = 5;
     adapter.setObjectsPerPage(pageSize);
     adapter.setPaginationEnabled(true);
@@ -497,7 +499,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadObjectsWithOnLoadingAndOnLoadedCallback() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     adapter.setObjectsPerPage(5);
     final Capture<Boolean> flag = new Capture<>(false);
     final Semaphore done = new Semaphore(0);
@@ -525,7 +527,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadNextPageBeforeLoadObjects() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final Semaphore done = new Semaphore(0);
     adapter.addOnQueryLoadListener(new OnQueryLoadListener<Thing>() {
       @Override
@@ -547,7 +549,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testIncomingQueryResultAfterClearing() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final int pageSize = 4;
     adapter.setObjectsPerPage(pageSize);
     final Semaphore done = new Semaphore(0);
@@ -578,7 +580,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   public void testLoadObjectsWithOverrideSetPageOnQuery() throws Exception {
     final int arbitraryLimit = 3;
     final ParseQueryAdapter<Thing> adapter =
-        new ParseQueryAdapter<Thing>(activity, Thing.class) {
+        new ParseQueryAdapter<Thing>(getActivity(), Thing.class) {
           @Override
           public void setPageOnQuery(int page, ParseQuery<Thing> query) {
             // Make sure that this method is being used + respected.
@@ -605,7 +607,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
   }
 
   public void testLoadObjectsWithtAutoload() throws Exception {
-    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(activity, Thing.class);
+    final ParseQueryAdapter<Thing> adapter = new ParseQueryAdapter<>(getActivity(), Thing.class);
     final Capture<Boolean> flag = new Capture<>(false);
     // Make sure that the Adapter doesn't start trying to load objects until AFTER we set this flag
     // to true (= triggered by calling setAutoload, NOT registerDataSetObserver, if autoload is
@@ -634,7 +636,7 @@ public class ParseQueryAdapterTest extends BaseActivityInstrumentationTestCase2<
     assertTrue(done.tryAcquire(10, TimeUnit.SECONDS));
   }
 
-  private LinearLayout buildReusableListCell() {
+  private static LinearLayout buildReusableListCell(Activity activity) {
     LinearLayout view = new LinearLayout(activity);
     TextView textView = new TextView(activity);
     textView.setId(android.R.id.text1);
