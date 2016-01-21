@@ -21,18 +21,18 @@
 
 import com.android.builder.core.BuilderConstants
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 version = "0.0.1"
 group = 'com.parse'
 
 dependencies {
-    compile 'com.android.support:support-v4:23.0.1'
-    compile 'com.parse:parse-android:1.10.3'
+    compile rootProject.ext.androidSupport
+    compile rootProject.ext.parse
 
-    provided 'com.facebook.android:facebook-android-sdk:4.4.0'
-    provided 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
-    provided 'com.parse:parsetwitterutils-android:1.10.3'
+    provided rootProject.ext.facebookSDK
+    provided rootProject.ext.parseFacebookUtils
+    provided rootProject.ext.parseTwitterUtils
 }
 
 android {
