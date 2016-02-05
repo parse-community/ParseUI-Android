@@ -32,17 +32,14 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.parse.ParseQuery.CachePolicy;
+import com.parse.widget.util.ParseQueryPager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
-import bolts.Capture;
+import bolts.CancellationTokenSource;
 
 /**
  * A {@code ParseQueryAdapter} handles the fetching of objects by page, and displaying objects as
@@ -112,14 +109,22 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
     void onLoaded(List<T> objects, Exception e);
   }
 
+  private final Object lock = new Object();
+  private ParseQueryPager<T> pager;
+  private CancellationTokenSource cts;
+
+  //region Backwards compatibility
+  private ParseQuery<T> query;
+  private int objectsPerPage = 25;
+  //endregion
+
+  private Integer itemResourceId;
+
   // The key to use to display on the cell text label.
   private String textKey;
 
   // The key to use to fetch an image for display in the cell's image view.
   private String imageKey;
-
-  // The number of objects to show per page (default: 25)
-  private int objectsPerPage = 25;
 
   // Whether the table should use the built-in pagination feature (default:
   // true)
@@ -141,24 +146,6 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
   private boolean autoload = true;
 
   private Context context;
-
-  private List<T> objects = new ArrayList<>();
-
-  private Set<ParseQuery> runningQueries =
-      Collections.newSetFromMap(new ConcurrentHashMap<ParseQuery, Boolean>());
-
-
-  // Used to keep track of the pages of objects when using CACHE_THEN_NETWORK. When using this,
-  // the data will be flattened and put into the objects list.
-  private List<List<T>> objectPages = new ArrayList<>();
-
-  private int currentPage = 0;
-
-  private Integer itemResourceId;
-
-  private boolean hasNextPage = true;
-
-  private QueryFactory<T> queryFactory;
 
   private List<OnQueryLoadListener<T>> onQueryLoadListeners =
       new ArrayList<>();
@@ -277,7 +264,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
   private ParseQueryAdapter(Context context, QueryFactory<T> queryFactory, Integer itemViewResource) {
     super();
     this.context = context;
-    this.queryFactory = queryFactory;
+    query = queryFactory.create();
     itemResourceId = itemViewResource;
   }
 
@@ -290,13 +277,38 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
     return context;
   }
 
+  private ParseQueryPager<T> getPager() {
+    synchronized (lock) {
+      if (pager == null) {
+        pager = new ParseQueryPager<T>(query, objectsPerPage) {
+          @Override
+          protected ParseQuery<T> createQuery(int page) {
+            // Workaround for backwards compatibility
+            ParseQuery<T> query = new ParseQuery<>(getQuery());
+            if (paginationEnabled) {
+              setPageOnQuery(page, query);
+            }
+            return query;
+          }
+        };
+        cts = new CancellationTokenSource();
+      }
+
+      return pager;
+    }
+  }
+
+  private List<T> getObjects() {
+    return getPager().getObjects();
+  }
+
   /** {@inheritDoc} **/
   @Override
   public T getItem(int index) {
     if (index == getPaginationCellRow()) {
       return null;
     }
-    return objects.get(index);
+    return getObjects().get(index);
   }
 
   /** {@inheritDoc} **/
@@ -337,18 +349,15 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    * Remove all elements from the list.
    */
   public void clear() {
-    objectPages.clear();
-    cancelAllQueries();
-    syncObjectsWithPages();
-    notifyDataSetChanged();
-    currentPage = 0;
-  }
-
-  private void cancelAllQueries() {
-    for (ParseQuery q : runningQueries) {
-      q.cancel();
+    synchronized (lock) {
+      if (cts != null) {
+        cts.cancel();
+      }
+      pager = null;
+      cts = null;
     }
-    runningQueries.clear();
+
+    notifyDataSetChanged();
   }
 
   /**
@@ -359,105 +368,39 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    * {@code false}.
    */
   public void loadObjects() {
-    loadObjects(0, true);
+    loadNextPage(true);
   }
 
-  private void loadObjects(final int page, final boolean shouldClear) {
-    final ParseQuery<T> query = queryFactory.create();
-
-    if (objectsPerPage > 0 && paginationEnabled) {
-      setPageOnQuery(page, query);
+  private void loadNextPage(final boolean shouldClear) {
+    synchronized (lock) {
+      if (shouldClear && pager != null) {
+        cts.cancel();
+        pager = null;
+      }
     }
 
     notifyOnLoadingListeners();
 
-    // Create a new page
-    if (page >= objectPages.size()) {
-      objectPages.add(page, new ArrayList<T>());
-    }
-
-    // In the case of CACHE_THEN_NETWORK, two callbacks will be called. Using this flag to keep
-    // track of the callbacks.
-    final Capture<Boolean> firstCallBack = new Capture<>(true);
-
-    runningQueries.add(query);
-
-    // TODO convert to Tasks and CancellationTokens
-    // (depends on https://github.com/ParsePlatform/Parse-SDK-Android/issues/6)
-    query.findInBackground(new FindCallback<T>() {
+    getPager().loadNextPage(new FindCallback<T>() {
       @Override
-      public void done(List<T> foundObjects, ParseException e) {
-        if (!runningQueries.contains(query)) {
+      public void done(List<T> results, ParseException e) {
+        if (results == null && e == null) { // cancelled
           return;
         }
-        // In the case of CACHE_THEN_NETWORK, two callbacks will be called. We can only remove the
-        // query after the second callback.
-        if (Parse.isLocalDatastoreEnabled() ||
-            (query.getCachePolicy() != CachePolicy.CACHE_THEN_NETWORK) ||
-            (query.getCachePolicy() == CachePolicy.CACHE_THEN_NETWORK && !firstCallBack.get())) {
-          runningQueries.remove(query);
-        }
 
+        // Backwards compatibility
         if ((!Parse.isLocalDatastoreEnabled() &&
-            query.getCachePolicy() == CachePolicy.CACHE_ONLY) &&
+            query.getCachePolicy() == ParseQuery.CachePolicy.CACHE_ONLY) &&
             (e != null) && e.getCode() == ParseException.CACHE_MISS) {
           // no-op on cache miss
           return;
         }
 
-        if ((e != null) &&
-            ((e.getCode() == ParseException.CONNECTION_FAILED) ||
-                (e.getCode() != ParseException.CACHE_MISS))) {
-          hasNextPage = true;
-        } else if (foundObjects != null) {
-          if (shouldClear && firstCallBack.get()) {
-            runningQueries.remove(query);
-            cancelAllQueries();
-            runningQueries.add(query); // allow 2nd callback
-            objectPages.clear();
-            objectPages.add(new ArrayList<T>());
-            currentPage = page;
-            firstCallBack.set(false);
-          }
+        notifyDataSetChanged();
 
-          // Only advance the page, this prevents second call back from CACHE_THEN_NETWORK to
-          // reset the page.
-          if (page >= currentPage) {
-            currentPage = page;
-
-            // since we set limit == objectsPerPage + 1
-            hasNextPage = (foundObjects.size() > objectsPerPage);
-          }
-
-          if (paginationEnabled && foundObjects.size() > objectsPerPage) {
-            // Remove the last object, fetched in order to tell us whether there was a "next page"
-            foundObjects.remove(objectsPerPage);
-          }
-
-          List<T> currentPage = objectPages.get(page);
-          currentPage.clear();
-          currentPage.addAll(foundObjects);
-
-          syncObjectsWithPages();
-
-          // executes on the UI thread
-          notifyDataSetChanged();
-        }
-
-        notifyOnLoadedListeners(foundObjects, e);
+        notifyOnLoadedListeners(results, e);
       }
-    });
-  }
-
-  /**
-   * This is a helper function to sync the objects with objectPages. This is only used with the
-   * CACHE_THEN_NETWORK option.
-   */
-  private void syncObjectsWithPages() {
-    objects.clear();
-    for (List<T> pageOfObjects : objectPages) {
-      objects.addAll(pageOfObjects);
-    }
+    }, cts.getToken());
   }
 
   /**
@@ -465,12 +408,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    * changed.
    */
   public void loadNextPage() {
-    if (objects.size() == 0 && runningQueries.size() == 0) {
-      loadObjects(0, false);
-    }
-    else {
-      loadObjects(currentPage + 1, false);
-    }
+    loadNextPage(false);
   }
 
   /**
@@ -482,7 +420,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    */
   @Override
   public int getCount() {
-    int count = objects.size();
+    int count = getObjects().size();
 
     if (shouldShowPaginationCell()) {
       count++;
@@ -689,7 +627,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
       return;
     }
     this.autoload = autoload;
-    if (this.autoload && !dataSetObservers.isEmpty() && objects.isEmpty()) {
+    if (this.autoload && !dataSetObservers.isEmpty() && getObjects().isEmpty()) {
       loadObjects();
     }
   }
@@ -725,11 +663,12 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
   }
 
   private int getPaginationCellRow() {
-    return objects.size();
+    return getObjects().size();
   }
 
   private boolean shouldShowPaginationCell() {
-    return paginationEnabled && objects.size() > 0 && hasNextPage;
+    ParseQueryPager<T> pager = getPager();
+    return paginationEnabled && pager.getObjects().size() > 0 && pager.hasNextPage();
   }
 
   private void notifyOnLoadingListeners() {
