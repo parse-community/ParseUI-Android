@@ -25,6 +25,13 @@ apply plugin: 'com.android.library'
 version = "0.0.1"
 group = 'com.parse'
 
+ext {
+     projName = 'ParseUI-Widget-Android'
+     projArtifact = 'parseui-widget-android'
+     projDescription = 'A library contains ui widgets for building apps with the Parse Android SDK.'
+     projGitLink = 'https://github.com/parse-community/ParseUI-Android'
+}
+
 dependencies {
     compile rootProject.ext.parse
 
@@ -86,6 +93,29 @@ def isSnapshot = version.endsWith('-SNAPSHOT')
 def ossrhUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('CI_NEXUS_USERNAME')
 def ossrhPassword = hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('CI_NEXUS_PASSWORD')
 
+def pomConfig = {
+    scm {
+        connection 'scm:git@github.com:parse-community/ParseUI-Android.git'
+        developerConnection 'scm:git@github.com:parse-community/ParseUI-Android.git'
+        url 'https://github.com/parse-community/ParseUI-Android'
+    }
+
+    licenses {
+        license {
+            name 'Platform License'
+            url 'https://github.com/parse-community/ParseUI-Android/blob/master/LICENSE'
+            distribution 'repo'
+        }
+    }
+
+    developers {
+        developer {
+            id 'parse'
+            name 'Parse'
+        }
+    }
+}
+
 uploadArchives {
     repositories.mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
@@ -98,34 +128,15 @@ uploadArchives {
             authentication(userName: ossrhUsername, password: ossrhPassword)
         }
 
-        pom.project {
+       def basePom = {
             name 'ParseUI-Widget-Android'
             artifactId = 'parseui-widget-android'
             packaging 'aar'
             description 'A library contains ui widgets for building apps with the Parse Android SDK.'
-            url 'https://github.com/ParsePlatform/ParseUI-Android'
+            url 'https://github.com/parse-community/ParseUI-Android'
+       }
 
-            scm {
-                connection 'scm:git@github.com:ParsePlatform/ParseUI-Android.git'
-                developerConnection 'scm:git@github.com:ParsePlatform/ParseUI-Android.git'
-                url 'https://github.com/ParsePlatform/ParseUI-Android'
-            }
-
-            licenses {
-                license {
-                    name 'Platform License'
-                    url 'https://github.com/ParsePlatform/ParseUI-Android/blob/master/LICENSE'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    id 'parse'
-                    name 'Parse'
-                }
-            }
-        }
+       pom.project basePom << pomConfig
     }
 }
 
@@ -144,3 +155,70 @@ artifacts {
 }
 
 //endregion
+
+apply plugin: 'com.jfrog.bintray'
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_API_KEY')
+
+    publications = ["MyPublication"]
+
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = 'Parse-UI-Android'
+        userOrg = 'parse'
+        licenses = ['BSD']
+        vcsUrl = projGitLink
+        version {
+            name = project.version
+            desc = projDescription
+            released = new Date()
+            vcsTag = project.version
+
+            // Sonatype username/passwrod must be set for this operation to happen
+            mavenCentralSync {
+              sync = true
+              user = ossrhUsername
+              password = ossrhPassword
+              close = '1' // release automatically
+           }
+        }
+    }
+}
+
+// Create the publication with the pom configuration:
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            groupId group
+            artifactId projArtifact
+            artifacts = [androidSourcesJar, bundleRelease]
+            version version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', projDescription)
+                root.appendNode('name', projName)
+                root.appendNode('url', projGitLink)
+                root.children().last() + pomConfig
+
+                // maven-publish workaround to include dependencies
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.compile.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                     dependencyNode.appendNode('groupId', it.group)
+                     dependencyNode.appendNode('artifactId', it.name)
+                     dependencyNode.appendNode('version', it.version)
+                }
+
+            }
+        }
+    }
+}
+
+// End of Bintray plugin
