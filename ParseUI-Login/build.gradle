@@ -166,7 +166,7 @@ bintray {
     publish = true
     pkg {
         repo = 'maven'
-        name = 'Parse-UI-Android'
+        name = 'ParseUI-Android'
         userOrg = 'parse'
         licenses = ['BSD']
         vcsUrl = projGitLink
