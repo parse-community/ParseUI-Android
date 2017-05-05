@@ -44,7 +44,7 @@ import bolts.CancellationTokenSource;
 /**
  * A {@code ParseQueryAdapter} handles the fetching of objects by page, and displaying objects as
  * views in a {@link android.widget.ListView}.
- * <p/>
+ * <p>
  * This class is highly configurable, but also intended to be easy to get started with. See below
  * for an example of using a {@code ParseQueryAdapter} inside an {@link android.app.Activity}'s
  * {@code onCreate}:
@@ -55,7 +55,7 @@ import bolts.CancellationTokenSource;
  * ListView listView = (ListView) findViewById(R.id.listview);
  * listView.setAdapter(adapter);
  * </pre>
- * <p/>
+ * <p>
  * Below, an example showing off the level of configuration available with this class:
  * <pre>
  * // Instantiate a QueryFactory to define the ParseQuery to be used for fetching items in this
@@ -363,7 +363,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
   /**
    * Clears the table and loads the first page of objects asynchronously. This method is called
    * automatically when this {@code Adapter} is attached to an {@code AdapterView}.
-   * <p/>
+   * <p>
    * {@code loadObjects()} should only need to be called if {@link #setAutoload(boolean)} is set to
    * {@code false}.
    */
@@ -431,14 +431,14 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
 
   /**
    * Override this method to customize each cell given a {@link ParseObject}.
-   * <p/>
+   * <p>
    * If a view is not provided, a default view will be created based upon
    * {@code android.R.layout.activity_list_item}.
-   * <p/>
+   * <p>
    * This method expects a {@code TextView} with id {@code android.R.id.text1} in your object views.
    * If {@link #setImageKey(String)} was used, this method also expects an {@code ImageView} with id
    * {@code android.R.id.icon}.
-   * <p/>
+   * <p>
    * This method displays the text value specified by the text key (set via
    * {@link #setTextKey(String)}) and an image (described by a {@link ParseFile}, under the key set
    * via {@link #setImageKey(String)}) if applicable. If the text key is not set, the value for
@@ -503,7 +503,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
   /**
    * Override this method to customize the "Load Next Page" cell, visible when pagination is turned
    * on and there may be more results to display.
-   * <p/>
+   * <p>
    * This method expects a {@code TextView} with id {@code android.R.id.text1}.
    *
    * @param v
@@ -548,7 +548,7 @@ public class ParseQueryAdapter<T extends ParseObject> extends BaseAdapter {
    * Override this method to manually paginate the provided {@code ParseQuery}. By default, this
    * method will set the {@code limit} value to {@link #getObjectsPerPage()} and the {@code skip}
    * value to {@link #getObjectsPerPage()} * {@code page}.
-   * <p/>
+   * <p>
    * Overriding this method will not be necessary, in most cases.
    *
    * @param page

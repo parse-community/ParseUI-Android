@@ -18,7 +18,7 @@ import bolts.TaskCompletionSource;
 /**
  * A utility class to page through {@link ParseQuery} results.
  *
- * @param <T>
+ * @param <T> A class that extends {@link ParseObject}
  */
 public class ParseQueryPager<T extends ParseObject> {
 
@@ -40,7 +40,7 @@ public class ParseQueryPager<T extends ParseObject> {
   /**
    * The callback that is called by {@link ParseQueryPager} when the results have changed.
    *
-   * @param <T>
+   * @param <T> A class that extends {@link ParseQueryPager}
    */
   public interface OnObjectsChangedCallback<T extends ParseQueryPager> {
     /**
