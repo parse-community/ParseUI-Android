@@ -22,7 +22,7 @@ import com.android.builder.core.BuilderConstants
 
 apply plugin: 'com.android.library'
 
-version = "0.0.1"
+version = rootProject.ext.commonLibVersion
 group = 'com.parse'
 
 ext {
@@ -167,7 +167,7 @@ bintray {
     publish = true
     pkg {
         repo = 'maven'
-        name = 'Parse-UI-Android'
+        name = 'ParseUI-Android'
         userOrg = 'parse'
         licenses = ['BSD']
         vcsUrl = projGitLink

@@ -23,7 +23,7 @@ import com.android.builder.core.BuilderConstants
 
 apply plugin: 'com.android.library'
 
-version = "0.0.2"
+version = rootProject.ext.commonLibVersion
 group = 'com.parse'
 
 ext {
