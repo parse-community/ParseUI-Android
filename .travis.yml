@@ -4,11 +4,14 @@ branches:
 
 language: android
 sudo: false
-
+jdk:
+    - oraclejdk8
 android:
   components:
-    - build-tools-23.0.1
-
+    - tools
+    - platform-tools
+    - build-tools-25.0.2
+    - android-25
     - android-22
     - android-23
 
@@ -24,7 +27,7 @@ before_script:
     - adb shell input keyevent 82 &
 
 script:
-    - ./gradlew clean connectedCheck --info
+    - ./gradlew clean connectedCheck
 
 cache:
   directories:
