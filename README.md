@@ -13,8 +13,8 @@ The `ParseUI-Widget` library provides several useful UI widgets which integrate 
 
     ```grovvy
     // Module dependency on ParseUI libraries sources
-    compile 'com.parse:parseui-login-android:0.0.1'
-    compile 'com.parse:parseui-widget-android:0.0.1'
+    compile 'com.parse:parseui-login-android:0.0.2'
+    compile 'com.parse:parseui-widget-android:0.0.2'
 
     // Uncomment if using Facebook or Twitter Login (optional Maven dependency)
     // compile 'com.facebook.android:facebook-android-sdk:4.6.0'
