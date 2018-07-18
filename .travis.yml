@@ -1,41 +1,21 @@
 branches:
   only:
     - master
-    - /^\d+\.\d+\.\d+$/ # regex
+    - /^v4-\d+\.\d+\.\d+$/ # regex
+
 language: android
-sudo: false
+
 jdk:
     - oraclejdk8
-android:
-  components:
-    - tools
-    - platform-tools
-    - build-tools-25.0.2
-    - android-25
-    - android-22
-    - extra-android-support
-    - extra-android-m2repository
 
-    - sys-img-armeabi-v7a-android-22
-
-before_script:
-    - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
-    - emulator -avd test -no-skin -no-audio -no-window &
-    - android-wait-for-emulator
-    - adb shell input keyevent 82 &
+before_install:
+    - mkdir "$ANDROID_HOME/licenses" || true
+    - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
 
 script:
-    - ./gradlew clean connectedCheck
+  - ./gradlew clean build
 
 cache:
   directories:
     - $HOME/.gradle
     - $HOME/.m2/repository
-
-deploy:
-  provider: script
-  script: ./gradlew bintrayUpload
-  skip_cleanup: true
-  on:
-    branch: master
-    tags: true

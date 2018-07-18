@@ -6,10 +6,12 @@ import com.parse.Parse;
 
 public class MyApplication extends Application {
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-    Parse.initialize(this);
-  }
+        Parse.Configuration configuration = new Parse.Configuration.Builder(this)
+                .build();
+        Parse.initialize(configuration);
+    }
 }

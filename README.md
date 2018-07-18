@@ -1,4 +1,8 @@
-# Parse SDK for Android
+# Parse UI for Android
+
+[![Build Status][build-status-svg]][build-status-link]
+[![License][license-svg]][license-link]
+[![](https://jitpack.io/v/parse-community/ParseUI-Android.svg)](https://jitpack.io/#parse-community/ParseUI-Android)
 
 This project contains two libraries, `ParseUI-Login` and `ParseUI-Widget`.
 
@@ -7,49 +11,50 @@ The `ParseUI-Login` library is used for building login and signup flows with the
 The `ParseUI-Widget` library provides several useful UI widgets which integrate with [Parse SDK](https://github.com/ParsePlatform/Parse-SDK-Android)  seamlessly.
 
 
-## Import to your project
-1. Configure Parse SDK by following this [tutorial](https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing).
-2. Add the following to the `dependencies` section of your app's build.gradle.
+## Dependency
 
-    ```grovvy
-    // Module dependency on ParseUI libraries sources
-    compile 'com.parse:parseui-login-android:0.0.2'
-    compile 'com.parse:parseui-widget-android:0.0.2'
+Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
 
-    // Uncomment if using Facebook or Twitter Login (optional Maven dependency)
-    // compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    // compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
-    // compile 'com.parse:parsetwitterutils-android:1.10.3'
-    ```
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
+}
+```
+
+Then, add the library to your project `build.gradle`
+```gradle
+dependencies {
+    // for the widgets dependency
+    implementation "com.github.parse-community.ParseUI-Android:widget:latest.version.here"
+    // for the login dependency
+    implementation "com.github.parse-community.ParseUI-Android:login:latest.version.here"
+}
+```
 
 ## Usage
-Please check the tutorial in our [wiki](https://github.com/ParsePlatform/ParseUI-Android/wiki);
+Please check the tutorial in our [wiki](https://github.com/ParsePlatform/ParseUI-Android/wiki)
 
 ## Documentation
 For complete details about this library project, please see our [documentation](https://www.parse.com/docs/android/guide#user-interface-parseloginui) on the Parse website.
 
-## Contributing
-See the CONTRIBUTING file for how to help out.
+## How Do I Contribute?
+We want to make contributing to this project as easy and transparent as possible. Please refer to the [Contribution Guidelines](https://github.com/parse-community/Parse-SDK-Android/blob/master/CONTRIBUTING.md).
 
 ## License
-Copyright (c) 2014, Parse, LLC. All rights reserved.
+    Copyright (c) 2015-present, Parse, LLC.
+    All rights reserved.
 
-You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
-copy, modify, and distribute this software in source code or binary form for use
-in connection with the web services and APIs provided by Parse.
-
-As with any software that integrates with the Parse platform, your use of
-this software is subject to the [Parse Terms of Service]
-(https://www.parse.com/about/terms). This copyright notice shall be
-included in all copies or substantial portions of the software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## Note
+    This source code is licensed under the BSD-style license found in the
+    LICENSE file in the root directory of this source tree. An additional grant
+    of patent rights can be found in the PATENTS file in the same directory.
 
 As of April 5, 2017, Parse, LLC has transferred this code to the parse-community organization, and will no longer be contributing to or distributing this code.
+
+    [build-status-svg]: https://travis-ci.org/parse-community/ParseUI-Android.svg?branch=master
+    [build-status-link]: https://travis-ci.org/parse-community/ParseUI-Android
+
+    [license-svg]: https://img.shields.io/badge/license-BSD-lightgrey.svg
+    [license-link]: https://github.com/parse-community/ParseUI-Android/blob/master/LICENSE

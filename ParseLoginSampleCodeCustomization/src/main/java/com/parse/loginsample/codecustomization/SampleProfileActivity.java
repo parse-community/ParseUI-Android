@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
-import com.parse.ui.ParseLoginBuilder;
+import com.parse.ui.login.ParseLoginBuilder;
 
 import java.util.Arrays;
 

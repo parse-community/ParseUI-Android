@@ -1,8 +1,8 @@
 // Parse UI Widget Library
-include ':ParseUI-Widget'
+include ':widget'
 
 // Parse UI Login Library
-include ':ParseUI-Login'
+include ':login'
 
 // Sample Projects
 include ':ParseUI-Widget-Sample'
