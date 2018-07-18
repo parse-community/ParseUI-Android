@@ -24,23 +24,25 @@ package com.parse.loginsample.layoutoverride;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseTwitterUtils;
+import com.parse.facebook.ParseFacebookUtils;
+import com.parse.twitter.ParseTwitterUtils;
 
 public class SampleApplication extends Application {
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    // Required - Initialize the Parse SDK
-    Parse.initialize(this);
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // Required - Initialize the Parse SDK
+        Parse.Configuration configuration = new Parse.Configuration.Builder(this)
+                .build();
+        Parse.initialize(configuration);
 
-    Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
-    ParseFacebookUtils.initialize(this);
+        ParseFacebookUtils.initialize(this);
 
-    // Optional - If you don't want to allow Twitter login, you can
-    // remove this line (and other related ParseTwitterUtils calls)
-    ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
-        getString(R.string.twitter_consumer_secret));
-  }
+        // Optional - If you don't want to allow Twitter login, you can
+        // remove this line (and other related ParseTwitterUtils calls)
+        ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
+                getString(R.string.twitter_consumer_secret));
+    }
 }

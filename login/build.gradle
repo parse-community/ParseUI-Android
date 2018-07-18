@@ -18,31 +18,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+apply plugin: 'com.android.library'
 
-package com.parse.loginsample.codecustomization;
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
-import android.app.Application;
-
-import com.parse.Parse;
-import com.parse.facebook.ParseFacebookUtils;
-import com.parse.twitter.ParseTwitterUtils;
-
-public class SampleApplication extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        // Required - Initialize the Parse SDK
-        Parse.Configuration configuration = new Parse.Configuration.Builder(this)
-                .build();
-        Parse.initialize(configuration);
-
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
-
-        ParseFacebookUtils.initialize(this);
-
-        // Optional - If you don't want to allow Twitter login, you can
-        // remove this line (and other related ParseTwitterUtils calls)
-        ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
-                getString(R.string.twitter_consumer_secret));
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionName "1.0"
+        versionCode 1
     }
 }
+
+dependencies {
+    api "com.android.support:appcompat-v7:$supportLibVersion"
+    api rootProject.ext.parse
+
+    compileOnly rootProject.ext.parseFacebookUtils
+    compileOnly rootProject.ext.parseTwitterUtils
+}
+
+apply from: 'https://raw.githubusercontent.com/Commit451/gradle-android-javadocs/1.0.0/gradle-android-javadocs.gradle'

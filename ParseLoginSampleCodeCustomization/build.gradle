@@ -1,21 +1,19 @@
-apply plugin: 'android'
-
-dependencies {
-    // rootProject.ext.* variables are defined in project gradle file, you can also use path here.
-    compile rootProject.ext.facebookSDK
-    compile project(':ParseUI-Login')
-    compile rootProject.ext.androidSupport
-    compile rootProject.ext.parse
-    compile rootProject.ext.parseFacebookUtils
-    compile rootProject.ext.parseTwitterUtils
-}
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
+}
+
+dependencies {
+    // rootProject.ext.* variables are defined in project gradle file, you can also use path here.
+    implementation project(':login')
+    implementation rootProject.ext.androidSupport
+    implementation rootProject.ext.parse
+    implementation rootProject.ext.parseFacebookUtils
+    implementation rootProject.ext.parseTwitterUtils
 }

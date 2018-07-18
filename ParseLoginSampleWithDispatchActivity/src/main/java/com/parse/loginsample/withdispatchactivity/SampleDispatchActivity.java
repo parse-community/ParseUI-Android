@@ -21,7 +21,7 @@
 
 package com.parse.loginsample.withdispatchactivity;
 
-import com.parse.ui.ParseLoginDispatchActivity;
+import com.parse.ui.login.ParseLoginDispatchActivity;
 
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
 
