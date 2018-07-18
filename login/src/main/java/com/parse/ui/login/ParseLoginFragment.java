@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 import android.app.Activity;
 import android.content.Context;
@@ -44,6 +44,7 @@ import com.parse.SaveCallback;
 import com.parse.facebook.ParseFacebookUtils;
 import com.parse.twitter.ParseTwitterUtils;
 import com.parse.twitter.Twitter;
+import com.parse.ui.R;
 
 import org.json.JSONObject;
 

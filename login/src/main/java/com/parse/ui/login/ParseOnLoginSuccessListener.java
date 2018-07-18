@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 public interface ParseOnLoginSuccessListener {
   public void onLoginSuccess();

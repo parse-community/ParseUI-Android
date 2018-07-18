@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 import android.content.Context;
 import android.content.Intent;

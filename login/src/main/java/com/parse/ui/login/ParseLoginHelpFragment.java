@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
+import com.parse.ui.R;
 
 /**
  * Fragment for the login help screen for resetting the user's password.

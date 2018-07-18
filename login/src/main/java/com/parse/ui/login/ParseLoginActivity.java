@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
@@ -36,6 +36,7 @@ import android.view.Window;
 
 import com.parse.Parse;
 import com.parse.facebook.ParseFacebookUtils;
+import com.parse.ui.R;
 
 /**
  * Encapsulates the Parse login flow. The user can log in by username/password,

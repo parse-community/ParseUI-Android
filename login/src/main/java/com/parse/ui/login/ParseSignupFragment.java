@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -36,13 +36,14 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.parse.ui.R;
 
 /**
  * Fragment for the user signup screen.
  */
 public class ParseSignupFragment extends ParseLoginFragmentBase implements OnClickListener {
-  public static final String USERNAME = "com.parse.ui.ParseSignupFragment.USERNAME";
-  public static final String PASSWORD = "com.parse.ui.ParseSignupFragment.PASSWORD";
+  public static final String USERNAME = "com.parse.ui.login.ParseSignupFragment.USERNAME";
+  public static final String PASSWORD = "com.parse.ui.login.ParseSignupFragment.PASSWORD";
 
   private EditText usernameField;
   private EditText passwordField;

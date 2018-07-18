@@ -19,7 +19,7 @@
  *
  */
 
-package com.parse.ui;
+package com.parse.ui.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
+import com.parse.ui.R;
 
 /**
  * Activity that starts ParseLoginActivity if the user is not logged in.
