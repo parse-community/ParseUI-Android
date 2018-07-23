@@ -26,7 +26,7 @@ ext {
     supportLibVersion = "27.1.1"
     androidSupport = "com.android.support:support-v4:${supportLibVersion}"
 
-    parse = 'com.parse:parse-android:1.17.3'
-    parseFacebookUtils = 'com.github.parse-community:ParseFacebookUtils-Android:1.11.1'
-    parseTwitterUtils = 'com.github.parse-community:ParseTwitterUtils-Android:1.11.1'
+    parse = "com.github.parse-community.Parse-SDK-Android:parse:1.18.0"
+    parseFacebookUtils = 'com.github.parse-community:ParseFacebookUtils-Android:1.12.0'
+    parseTwitterUtils = 'com.github.parse-community:ParseTwitterUtils-Android:1.12.0'
 }
