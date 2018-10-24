@@ -1,0 +1,42 @@
+<resources>
+
+    <string name="com_parse_ui_progress_dialog_text">載入中...</string>
+    <string name="com_parse_ui_username_input_hint">帳號</string>
+    <string name="com_parse_ui_password_input_hint">密碼</string>
+    <string name="com_parse_ui_forgot_password_button_label"><u>忘記密碼</u></string>
+    <string name="com_parse_ui_parse_login_button_label">登入</string>
+    <string name="com_parse_ui_parse_signup_button_label">註冊</string>
+    <string name="com_parse_ui_facebook_login_button_label">使用Facebook登入</string>
+    <string name="com_parse_ui_twitter_login_button_label">使用Twitter登入</string>
+    <string name="com_parse_ui_email_input_hint">Email</string>
+    <string name="com_parse_ui_confirm_password_input_hint">重新輸入密碼</string>
+    <string name="com_parse_ui_name_input_hint">名字</string>
+    <string name="com_parse_ui_create_account_button_label">建立帳號</string>
+    <string name="com_parse_ui_no_username_toast">請輸入您的帳號</string>
+    <string name="com_parse_ui_no_password_toast">請輸入您的密碼</string>
+    <string name="com_parse_ui_parse_login_invalid_credentials_toast">您輸入的帳號密碼不符合</string>
+    <string name="com_parse_ui_parse_login_failed_unknown_toast">無法登入，請稍候再試</string>
+    <string name="com_parse_ui_facebook_login_failed_toast">Facebook 登入失敗</string>
+    <string name="com_parse_ui_twitter_login_failed_toast">Twitter 登入失敗</string>
+
+    <plurals name="com_parse_ui_password_too_short_toast">
+        <item quantity="one">密碼至少需要 %d 個字元</item>
+        <item quantity="other">密碼至少需要 %d 個字元</item>
+    </plurals>
+
+    <string name="com_parse_ui_username_taken_toast">帳號已經被註冊了，請輸入其他帳號名稱</string>
+    <string name="com_parse_ui_reenter_password_toast">請重新輸入您的密碼</string>
+    <string name="com_parse_ui_mismatch_confirm_password_toast">密碼不吻合，請再試一次</string>
+    <string name="com_parse_ui_no_email_toast">請輸入您的Email</string>
+    <string name="com_parse_ui_invalid_email_toast">Email無效，請輸入正確的Email</string>
+    <string name="com_parse_ui_email_taken_toast">Email已被註冊，請使用忘記密碼來取回帳號</string>
+    <string name="com_parse_ui_no_name_toast">請輸入您的名字</string>
+    <string name="com_parse_ui_signup_failed_unknown_toast">無法註冊，請稍候再試</string>
+    <string name="com_parse_ui_login_help_instructions">輸入您的Email來取回您的帳號</string>
+    <string name="com_parse_ui_login_help_email_input_hint">Email</string>
+    <string name="com_parse_ui_login_help_submit_button_label">送出</string>
+    <string name="com_parse_ui_login_help_login_again_button_label">返回至登入畫面</string>
+    <string name="com_parse_ui_login_help_submit_failed_unknown">請求密碼重設失敗，請再試一次</string>
+    <string name="com_parse_ui_login_help_email_sent">重設密碼郵件已發送，請檢查您的Email</string>
+
+</resources>
