@@ -11,6 +11,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         Parse.Configuration configuration = new Parse.Configuration.Builder(this)
+                .server("http://localhost")
                 .build();
         Parse.initialize(configuration);
     }
