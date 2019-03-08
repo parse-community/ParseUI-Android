@@ -15,7 +15,7 @@ android {
 dependencies {
     // rootProject.ext.* variables are defined in project gradle file, you can also use path here.
     implementation project(':login')
-    implementation rootProject.ext.androidSupport
+    implementation "androidx.appcompat:appcompat:1.0.2"
     implementation rootProject.ext.parse
     implementation rootProject.ext.parseFacebookUtils
     implementation rootProject.ext.parseTwitterUtils

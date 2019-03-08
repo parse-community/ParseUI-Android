@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    api "com.android.support:appcompat-v7:$supportLibVersion"
+    api "androidx.appcompat:appcompat:1.0.2"
     api rootProject.ext.parse
 
     compileOnly rootProject.ext.parseFacebookUtils
