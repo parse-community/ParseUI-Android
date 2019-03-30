@@ -1,5 +1,11 @@
 # Parse UI for Android
-[![](https://travis-ci.org/parse-community/ParseUI-Android.svg?branch=master)](https://travis-ci.org/parse-community/ParseUI-Android) [![](https://img.shields.io/badge/license-BSD-lightgrey.svg)](https://github.com/parse-community/ParseUI-Android/blob/master/LICENSE) [![](https://jitpack.io/v/parse-community/ParseUI-Android.svg)](https://jitpack.io/#parse-community/ParseUI-Android)
+[![](https://travis-ci.org/parse-community/ParseUI-Android.svg?branch=master)](https://travis-ci.org/parse-community/ParseUI-Android)
+[![](https://img.shields.io/badge/license-BSD-lightgrey.svg)](https://github.com/parse-community/ParseUI-Android/blob/master/LICENSE)
+[![](https://jitpack.io/v/parse-community/ParseUI-Android.svg)](https://jitpack.io/#parse-community/ParseUI-Android)
+[![Join The Conversation](https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg)](https://community.parseplatform.org/c/parse-server)
+[![Backers on Open Collective](https://opencollective.com/parse-server/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/parse-server/sponsors/badge.svg)](#sponsors)
+![Twitter Follow](https://img.shields.io/twitter/follow/ParsePlatform.svg?label=Follow%20us%20on%20Twitter&style=social)
 
 This project contains two libraries, `login` and `widget`.
 
@@ -48,4 +54,5 @@ We want to make contributing to this project as easy and transparent as possible
     LICENSE file in the root directory of this source tree. An additional grant
     of patent rights can be found in the PATENTS file in the same directory.
 
+-----
 As of April 5, 2017, Parse, LLC has transferred this code to the parse-community organization, and will no longer be contributing to or distributing this code.
