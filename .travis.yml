@@ -6,7 +6,7 @@ branches:
 language: android
 
 jdk:
-    - oraclejdk8
+    - openjdk8
 
 before_install:
     - mkdir "$ANDROID_HOME/licenses" || true

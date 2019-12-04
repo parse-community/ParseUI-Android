@@ -18,7 +18,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -35,11 +35,11 @@ android {
 }
 
 dependencies {
-    api "androidx.appcompat:appcompat:1.0.2"
+    api rootProject.ext.appcompat
     api rootProject.ext.parse
 
     compileOnly rootProject.ext.parseFacebookUtils
     compileOnly rootProject.ext.parseTwitterUtils
 }
 
-apply from: 'https://raw.githubusercontent.com/Commit451/gradle-android-javadocs/1.0.0/gradle-android-javadocs.gradle'
+apply from: "https://raw.githubusercontent.com/Commit451/gradle-android-javadocs/1.1.0/gradle-android-javadocs.gradle"

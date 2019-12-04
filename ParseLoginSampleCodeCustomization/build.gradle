@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -14,8 +14,8 @@ android {
 
 dependencies {
     // rootProject.ext.* variables are defined in project gradle file, you can also use path here.
-    implementation project(':login')
-    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation project(":login")
+    implementation rootProject.ext.appcompat
     implementation rootProject.ext.parse
     implementation rootProject.ext.parseFacebookUtils
     implementation rootProject.ext.parseTwitterUtils

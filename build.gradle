@@ -4,9 +4,13 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "com.android.tools.build:gradle:3.5.2"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
     }
+}
+
+plugins {
+    id "com.github.ben-manes.versions" version "0.27.0"
 }
 
 allprojects {
@@ -18,12 +22,13 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 28
+    compileSdkVersion = 29
 
     minSdkVersion = 15
-    targetSdkVersion = 28
+    targetSdkVersion = 29
 
-    parse = "com.github.parse-community.Parse-SDK-Android:parse:1.19.0"
-    parseFacebookUtils = 'com.github.parse-community:ParseFacebookUtils-Android:1.13.0'
-    parseTwitterUtils = 'com.github.parse-community:ParseTwitterUtils-Android:1.13.0'
+    appcompat = "androidx.appcompat:appcompat:1.1.0"
+    parse = "com.github.parse-community.Parse-SDK-Android:parse:1.22.1"
+    parseFacebookUtils = "com.github.parse-community:ParseFacebookUtils-Android:1.14.0"
+    parseTwitterUtils = "com.github.parse-community:ParseTwitterUtils-Android:1.13.0"
 }
