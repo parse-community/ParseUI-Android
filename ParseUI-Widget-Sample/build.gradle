@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -16,6 +16,6 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation project(':widget')
+    implementation rootProject.ext.appcompat
+    implementation project(":widget")
 }
